@@ -19,17 +19,17 @@ import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IEven
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.EquipeRepoJpaImpl;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.EventoRepoJpaImpl;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.EquipamentoRepoJpaImpl;
-import apoioaosdesastres.apoioaosdesastres.TfApplication;
+import apoioaosdesastres.apoioaosdesastres.ApoioaosdesastresApplication;
 
 
-class TfApplicationTests {
+class ApoioaosdesastresApplicationTests {
 
     private EventoRepoJpaImpl eventoRepoJpaImpl;
 
     
     @Test
     void contextLoads() {
-        TfApplication applicationTests = new TfApplication();
+        ApoioaosdesastresApplication applicationTests = new ApoioaosdesastresApplication();
         // Removed recursive call to avoid StackOverflowError
     }
 

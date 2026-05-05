@@ -1,10 +1,13 @@
 package apoioaosdesastres.apoioaosdesastres.backend.apresentacao;
 
+import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IEquipamentoJpaItfRep;
 import java.util.*;
 import org.springframework.web.bind.annotation.*;
 import apoioaosdesastres.apoioaosdesastres.*;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Atendimento;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Evento;
+import apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Equipe;
+import apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Equipamento;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IAtendimentoRepository;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IEquipamentoRepository;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IEquipeRepository;
@@ -21,31 +24,45 @@ public class ExemploController {
     private IEquipeRepository equipe;
 
     @Autowired
-    public ExemploController(IAtendimentoRepository atendimento, IEventoRepository evento, IEquipeRepository equipe) {
+    public ExemploController(IAtendimentoRepository atendimento, IEventoRepository evento, IEquipeRepository equipe, IEquipamentoRepository equipamento) {
         this.atendimento = atendimento;
         this.evento = evento;
         this.equipamento = equipamento;
         this.equipe = equipe;
     }
 
-       
     @GetMapping("")
     public String getMensagemInicial() {
         return "Aplicacao acmerescue funcionando!";
     }
+    
+    /*funcionando */
 
+    // como ver no postman /acmerescue/cadastro/listaatendimentos
     @GetMapping("/cadastro/listaatendimentos")
     public List<Atendimento> getAtendimentos() {
         return atendimento.getAtendimentos();
     }
 
+    // como ver no postman /acmerescue/cadastro/listaeventos
     @GetMapping("/cadastro/listaeventos")
     public List<Evento> getEventos() {
         return evento.getEventos();
     }
 
-    
+    // como ver no postman /acmerescue/cadastro/listaequipes
+    @GetMapping("/cadastro/listaequipes")
+    public List<Equipe> getEquipes() {
+        return equipe.getEquipes();
+    }                                                                  
 
+    // como ver no postman /acmerescue/cadastro/listaequipamentos
+    @GetMapping("/cadastro/listaequipamentos")
+    public List<Equipamento> getEquipamentos() {
+        return equipamento.getEquipamentos();
+    }
+
+    
     // como ver no postman /acmerescue/validaatendimento?cod=1
     @PostMapping("/validaatendimento")
     public boolean validaatendimento(long cod) {
@@ -70,7 +87,33 @@ public class ExemploController {
         return false;
     }
 
-      //como ver no postman /acmerescue/atendimento/Em andamento
+    
+    // como ver no postman /acmerescue/validaequipe?codigo=1
+    @PostMapping("/validaequipe")
+    public boolean validaequipe(long codigo) {
+        for (Equipe equipe : equipe.getEquipes()) {
+            if (equipe.getNumero() == codigo) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    
+    // como ver no postman /acmerescue/validaequipamento?codigo=1
+    @PostMapping("/validaequipamento")
+    public boolean validaequipamento(long codigo) {
+        for (Equipamento equipamento : equipamento.getEquipamentos()) {
+            if (equipamento.getId() == codigo) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*nao testei ainda */
+    
+    /* */
       @GetMapping("/atendimento/{status}")
       public Atendimento getAtendimentoByStatus(@PathVariable("status") String status) {
           return atendimento.getAtendimentoByStatus(status);

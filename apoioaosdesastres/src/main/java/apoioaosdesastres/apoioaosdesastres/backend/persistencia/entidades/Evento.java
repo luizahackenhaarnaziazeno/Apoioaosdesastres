@@ -1,5 +1,8 @@
 package apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 @Entity
 public class Evento {
     @Id
@@ -10,6 +13,8 @@ public class Evento {
     private double longitude;
 
    
+    protected Evento() {
+    }
 
     public Evento(long codigo, String descricao) {
         this.codigo = codigo;

@@ -11,19 +11,21 @@ import java.util.ArrayList;
 public class Atendimento{
     @Id
     private long cod;
-
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    private Evento evento;
-
-    
-    // private Equipe equipe;
-
-    // private List<Equipe> equipes = new ArrayList<>();
     private Date datainicio;
     private int duracao; // dias
     private String status;
 
-    
+    @OneToOne
+    @JoinColumn(name = "evento_codigo") 
+    private Evento evento;
+
+    @ManyToOne
+    @JoinColumn(name = "equipe_numero")
+    private Equipe equipe;
+
+   
+   protected Atendimento() {
+    }    
 
     public Atendimento(long cod, Evento evento, Date datainicio, int duracao, String status) {
         this.cod = cod;
@@ -59,20 +61,17 @@ public class Atendimento{
         return this.status = status;
     }
 
-    // public List<Equipe> getEquipes() {
-    //     return equipes;
-    // }
+    public Long getEquipes() {
+       if (this.equipe == null) {
+        return null; 
+       }
+    return this.equipe.getNumero();
+    }
 
-    // public Equipe getEquipe() {
-    //     return this.equipe;
-    // }
  
-    // public void setEquipe(Equipe equipe) {
-    //     this.equipe = equipe;
-    // }
-
-
-
+     public void setEquipe(Equipe equipe) {
+         this.equipe = equipe;
+     }
 
     public long getEventoCodigo() {
 
@@ -80,23 +79,18 @@ public class Atendimento{
 
     }
 
+    public Double calculaCusto(){
+         double custoEquipe = this.getDuracao() * 250 * this.equipe.getNumero();
+         double custoEquipamentos = this.getDuracao() * equipe.getEquipamentos().stream()
+                 .mapToDouble(Equipamento::getCustoDiario)
+                .sum();
+         double custoDeslocamento = equipe.getDistancia() * 
+              (100 * equipe.getNumero() + 
+              0.1 * equipe.getEquipamentos().stream()
+                .mapToDouble(Equipamento::getCustoDiario)
+                .sum());
+         double custoTotal = custoEquipe + custoEquipamentos + custoDeslocamento;
+         return custoTotal;
+    }
 
-
-    
-
-
-
-    // public Double calculaCusto(){
-    //     double custoEquipe = this.getDuracao() * 250 * this.equipe.getNumero();
-    //     double custoEquipamentos = this.getDuracao() * equipe.getEquipamentos().stream()
-    //             .mapToDouble(Equipamento::getCustoDiario)
-    //             .sum();
-    //     double custoDeslocamento = equipe.getDistancia() * 
-    //             (100 * equipe.getNumero() + 
-    //             0.1 * equipe.getEquipamentos().stream()
-    //             .mapToDouble(Equipamento::getCustoDiario)
-    //             .sum());
-    //     double custoTotal = custoEquipe + custoEquipamentos + custoDeslocamento;
-    //     return custoTotal;
-    // }
 }

@@ -1,11 +1,12 @@
 package apoioaosdesastres.apoioaosdesastres.backend.persistencia;
 import java.util.List;
+import java.util.LinkedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 
-import apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidade.Evento;
+import apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Evento;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IEventoJpaItfRep;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IEventoRepository;
 
@@ -36,10 +37,10 @@ public class EventoRepoJpaImpl implements IEventoRepository {
         return evento;
     }
 
-    /*@Override
+    @Override
     public boolean cadastraEvento(Evento evento) {
        repository.cadastraevento(evento.getCodigo(), evento.getDescricao(), evento.getdata(), evento.getlatitude(), evento.getlongitude());
         return true;
-}*/
+}
 
 }

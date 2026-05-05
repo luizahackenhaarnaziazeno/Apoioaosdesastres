@@ -10,7 +10,6 @@ import apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Atendi
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IAtendimentoJpaItfRep;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IAtendimentoRepository;
 
-//import apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Atendimento;
 
 @Repository
 @Primary

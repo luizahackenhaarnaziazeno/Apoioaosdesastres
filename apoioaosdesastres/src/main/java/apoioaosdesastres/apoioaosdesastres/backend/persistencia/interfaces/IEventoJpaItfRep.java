@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import  apoioaosdesastres.apoioaosdesastres.backend.persistencia.Evento;
+import  apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Evento;
 
 public interface IEventoJpaItfRep extends CrudRepository<Evento,Long>{
     List<Evento> findAll(); 
