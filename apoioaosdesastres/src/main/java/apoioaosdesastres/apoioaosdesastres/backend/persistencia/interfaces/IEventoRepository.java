@@ -7,6 +7,6 @@ import apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Evento
 public interface IEventoRepository {
     List<Evento> getEventos();
    Evento getEventoCodigo(long codigo);
-   boolean cadastraEvento(Evento evento);
+   Evento cadastraEvento(Evento evento);
 }
 

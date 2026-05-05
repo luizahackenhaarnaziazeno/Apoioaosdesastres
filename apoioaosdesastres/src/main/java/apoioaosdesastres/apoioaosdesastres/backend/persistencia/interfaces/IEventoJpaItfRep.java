@@ -12,8 +12,5 @@ import  apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Event
 public interface IEventoJpaItfRep extends CrudRepository<Evento,Long>{
     List<Evento> findAll(); 
     Evento findById(long codigo);
-    @Modifying
-    @Query("UPDATE Evento e SET e.descricao = :descricao, e.data = :data, e.latitude = :latitude, e.longitude = :longitude WHERE e.codigo = :codigo")
-    void cadastraevento(@Param("codigo") long codigo, @Param("descricao") String descricao, @Param("data") String data, @Param("latitude") Double latitude, @Param("longitude") Double longitude);
-   
+
 }

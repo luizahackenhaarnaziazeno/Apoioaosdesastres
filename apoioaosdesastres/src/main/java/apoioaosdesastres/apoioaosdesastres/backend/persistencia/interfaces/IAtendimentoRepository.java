@@ -20,7 +20,5 @@ public interface IAtendimentoRepository {
     boolean cancelaAtendimento(long cod);
     boolean confirmaAtendimento(long cod);
     boolean eventoTemAtendimento(long cod);
-    
-
    
 }

@@ -73,13 +73,17 @@ public class Atendimento{
          this.equipe = equipe;
      }
 
-    public long getEventoCodigo() {
-
-        return evento.getCodigo();
-
+    public Long getEventoCodigo() {
+        if (this.evento == null) {
+            return null;
+        }
+        return this.evento.getCodigo();
     }
 
     public Double calculaCusto(){
+        if (this.equipe == null) {
+            return null;
+        }
          double custoEquipe = this.getDuracao() * 250 * this.equipe.getNumero();
          double custoEquipamentos = this.getDuracao() * equipe.getEquipamentos().stream()
                  .mapToDouble(Equipamento::getCustoDiario)

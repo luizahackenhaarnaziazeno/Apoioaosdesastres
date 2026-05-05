@@ -149,19 +149,9 @@ public class ExemploController {
     return atendimento.getAtualizacaoByStatus(status);
 }
 
-    /* Testar quando colocar as equipes e os equipamentos */
-    /*
-     * Descrição: Retorna o custo de um atendimento de um evento
-     * Parâmetros de entrada codigo: código do evento
-     * JSON resposta : [{código do evento, código do atendimento, número equipe,
-     * custo}, ...]
-     * 
-     * /* @GetMapping("/atendimento/custo/{codigo}")
-     * public Atendimento getCustoAtendimento(@PathVariable("evento_codigo") Long
-     * codigo) {
-     * return atendimento.getCustoAtendimento(codigo);
-     * }
-     */
+
+    //Testar quando colocar as equipes e os equipamentos 
+    
 
     /*
      * Endpoint: GET /acmerescue/equipe/atendimento/:numero

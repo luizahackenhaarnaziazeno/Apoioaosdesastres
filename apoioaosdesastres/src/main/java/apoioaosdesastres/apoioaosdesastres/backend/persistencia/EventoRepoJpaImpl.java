@@ -37,10 +37,8 @@ public class EventoRepoJpaImpl implements IEventoRepository {
         return evento;
     }
 
-    @Override
-    public boolean cadastraEvento(Evento evento) {
-       repository.cadastraevento(evento.getCodigo(), evento.getDescricao(), evento.getdata(), evento.getlatitude(), evento.getlongitude());
-        return true;
-}
-
+   @Override
+    public Evento cadastraEvento(Evento evento) {
+        return repository.save(evento);
+    }
 }
