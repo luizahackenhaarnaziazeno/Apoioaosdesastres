@@ -39,5 +39,5 @@ INSERT INTO equipamento (nome, custo_diario, equipe_numero) VALUES ('Cobertor T�
 
 /* 4. Inserts de atendimentos (Adicionado o horário na data para não dar erro de fuso) */
 INSERT INTO atendimento (cod, evento_codigo, datainicio, duracao, status) VALUES (1, 1, '2024-11-15 08:30:00', 120, 'Pendente');
-INSERT INTO atendimento (cod, evento_codigo, datainicio, duracao, status) VALUES (2, 2, '2024-10-22 14:00:00', 60, 'Concluído');
-INSERT INTO atendimento (cod, evento_codigo, datainicio, duracao, status) VALUES (3, 3, '2024-11-10 09:15:00', 90, 'Em andamento');
+INSERT INTO atendimento (cod, evento_codigo, datainicio, duracao, status) VALUES (2, 2, '2024-10-22 14:00:00', 60, 'Concluido');
+INSERT INTO atendimento (cod, evento_codigo, datainicio, duracao, status) VALUES (3, 3, '2024-11-10 09:15:00', 90, 'Executando');

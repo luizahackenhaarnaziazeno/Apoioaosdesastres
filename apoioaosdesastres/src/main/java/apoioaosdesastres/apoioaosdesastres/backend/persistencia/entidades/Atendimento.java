@@ -57,8 +57,8 @@ public class Atendimento{
         return this.status;
     }
 
-    public String setStatus(String status) {
-        return this.status = status;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getEquipes() {

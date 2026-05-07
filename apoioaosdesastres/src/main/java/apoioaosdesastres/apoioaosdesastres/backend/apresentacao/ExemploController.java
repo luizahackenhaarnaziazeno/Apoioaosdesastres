@@ -14,6 +14,7 @@ import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IAten
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IEquipamentoRepository;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IEquipeRepository;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IEventoRepository;
+import apoioaosdesastres.apoioaosdesastres.backend.persistencia.interfaces.IAtendimentoJpaItfRep;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +26,13 @@ public class ExemploController {
     private IEventoRepository evento;
     private IEquipamentoRepository equipamento;
     private IEquipeRepository equipe;  
-     
+    private IAtendimentoJpaItfRep atendimentoJpaRepository;
     
 
 
 
     @Autowired
-    public ExemploController(IAtendimentoRepository atendimento, IEventoRepository evento, IEquipeRepository equipe, IEquipamentoRepository equipamento, IAtendimentoJpaRep atendimentoJpaRepository) {
+    public ExemploController(IAtendimentoRepository atendimento, IEventoRepository evento, IEquipeRepository equipe, IEquipamentoRepository equipamento, IAtendimentoJpaItfRep atendimentoJpaRepository) {
         this.atendimento = atendimento;
         this.evento = evento;
         this.equipamento = equipamento;
@@ -162,6 +163,15 @@ public class ExemploController {
         return ResponseEntity.ok(resposta);
     }
 
+   /*
+   como ver no postman /acmerescue/atendimento/1
+   adicione isso no postman no body
+   {
+     "status": "pendente"
+   }
+     
+   Para ver se atualizou no postman usar o get:/acmerescue/atendimento/statusQueAtualizou
+    */ 
    @PostMapping("/atendimento/{codigo}")
     public ResponseEntity<Map<String, Object>> atualizarStatusAtendimento(
             @PathVariable long codigo,
@@ -169,7 +179,7 @@ public class ExemploController {
 
         String novoStatus = corpoRequisicao.get("status").toUpperCase();
         
-        // 1. Busca o atendimento direto pelo JPA
+        //Busca o atendimento direto pelo JPA
         Atendimento atendimento = atendimentoJpaRepository.findById(codigo);
 
         // Se não achou, retorna 404
@@ -177,13 +187,13 @@ public class ExemploController {
             return ResponseEntity.notFound().build();
         }
 
-        // 2. Altera o status NO OBJETO
-        atendimento.setStatus(novoStatus); // Vai dar erro aqui se você não tiver esse método (veja o aviso abaixo)
+        // Altera o status NO OBJETO
+        atendimento.setStatus(novoStatus); 
 
-        // 3. SALVA DE VOLTA NO BANCO DE DADOS (Essa é a parte que devia estar faltando!)
+        // SALVA DE VOLTA NO BANCO DE DADOS 
         atendimentoJpaRepository.save(atendimento);
 
-        // 4. Monta o JSON de resposta
+        // JSON de resposta
         Map<String, Object> jsonMap = new LinkedHashMap<>();
         jsonMap.put("codigoDoAtendimento", atendimento.getCod());
         jsonMap.put("dataInicio", atendimento.getDatainicio());
