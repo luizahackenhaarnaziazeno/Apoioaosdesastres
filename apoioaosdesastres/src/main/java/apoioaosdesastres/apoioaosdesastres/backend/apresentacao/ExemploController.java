@@ -163,46 +163,7 @@ public class ExemploController {
         return ResponseEntity.ok(resposta);
     }
 
-   /*
-   como ver no postman /acmerescue/atendimento/1
-   adicione isso no postman no body
-   {
-     "status": "pendente"
-   }
-     
-   Para ver se atualizou no postman usar o get:/acmerescue/atendimento/statusQueAtualizou
-    */ 
-   @PostMapping("/atendimento/{codigo}")
-    public ResponseEntity<Map<String, Object>> atualizarStatusAtendimento(
-            @PathVariable long codigo,
-            @RequestBody Map<String, String> corpoRequisicao) {
-
-        String novoStatus = corpoRequisicao.get("status").toUpperCase();
-        
-        //Busca o atendimento direto pelo JPA
-        Atendimento atendimento = atendimentoJpaRepository.findById(codigo);
-
-        // Se não achou, retorna 404
-        if (atendimento == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        // Altera o status NO OBJETO
-        atendimento.setStatus(novoStatus); 
-
-        // SALVA DE VOLTA NO BANCO DE DADOS 
-        atendimentoJpaRepository.save(atendimento);
-
-        // JSON de resposta
-        Map<String, Object> jsonMap = new LinkedHashMap<>();
-        jsonMap.put("codigoDoAtendimento", atendimento.getCod());
-        jsonMap.put("dataInicio", atendimento.getDatainicio());
-        jsonMap.put("duracao", atendimento.getDuracao());
-        jsonMap.put("status", atendimento.getStatus());
-        jsonMap.put("codigoDoEvento", atendimento.getEventoCodigo());
-        
-        return ResponseEntity.ok(jsonMap);
-    }
+   
 
   
 }
