@@ -107,7 +107,7 @@ public class ExemploController {
     }
 
     
-    // como ver no postman /acmerescue/validaequipamento?codigo=1
+    // como ver no postman /acmerescue/validaequipamento?odigo=1
     @PostMapping("/validaequipamento")
     public boolean validaequipamento(long codigo) {
         for (Equipamento equipamento : equipamento.getEquipamentos()) {
@@ -158,53 +158,57 @@ public class ExemploController {
         return ResponseEntity.ok(resposta);
     }
 
+   
+@PostMapping("/atendimento/{codigo}")
+    public ResponseEntity<Map<String, Object>> atualizarStatusAtendimento(
+            @PathVariable long codigo,
+            @RequestBody Map<String, String> corpoRequisicao) {
 
-    /*nao testei ainda */
-    
-    
-  
-     
-    //ARRUMAR:
+        // 1. Extrai o status do corpo do JSON
+        String novoStatus = corpoRequisicao.get("status");
 
-    // Aloca um atendimento a alguma equipe e Retorna se o cadastro teve sucesso e
-    // Booleano: true ou false
-    /*@PostMapping("/processo/alocaatendimento")
-    public boolean alocaatendimento(long cod) {
-        for (Atendimento atendimento : atendimento.getAtendimentos()) {
-            if (atendimento.getCod() == cod) {
-              this.equipe.adicionaEquipe(equipe.getEquipes());
-                return true;
-            }
+        // Validação básica se o status foi enviado
+        if (novoStatus == null || novoStatus.trim().isEmpty()) {
+            return ResponseEntity.badRequest().build();
         }
-        return false;
-    }*/
 
+        novoStatus = novoStatus.toUpperCase();
+        
+        // (Opcional) Validação de segurança dos status permitidos
+        List<String> statusValidos = List.of("PENDENTE", "EXECUTANDO", "FINALIZADO", "CANCELADO");
+        if (!statusValidos.contains(novoStatus)) {
+            return ResponseEntity.badRequest().build();
+        }
 
- 
+        // 2. Usa o método da sua interface para alterar a situação
+        boolean atualizou = atendimento.alterarSituacaoDeAtendimento(codigo, novoStatus);
 
-    /*
-     * Descrição : Atualizar o status de um atendimento
-     * JSON resposta : Retorna o cadastro completo do atendimento {código do
-     * atendimento, ...}
-     */   
-     //como ver no postman /acmerescue/atendimento/3
-  @PostMapping("/atendimento/{codigo}")
-  public Atendimento Atualizastatus(@PathVariable("status") String status) {
-    return atendimento.getAtualizacaoByStatus(status);
-}
+        if (!atualizou) {
+            // Se retornou false (ex: código não existe), retorna Erro 400 ou 404
+            return ResponseEntity.badRequest().build(); 
+        }
 
+        // 3. Busca o atendimento atualizado no banco
+        Atendimento atendimentoAtualizado = atendimento.getAtendimentoCod(codigo);
 
-    //Testar quando colocar as equipes e os equipamentos 
-    
+        if (atendimentoAtualizado == null) {
+            return ResponseEntity.notFound().build();
+        }
 
-    /*
-     * Endpoint: GET /acmerescue/equipe/atendimento/:numero
-     * Descrição : Retorna a lista de atendimentos da equipe informada
-     * Parâmetros de entrada numero: número da equipe
-     * JSON resposta : [{código do atendimento, ...}, ... ]
-     */
+        // 4. Mapeia a resposta completa dinamicamente (sem DTO)
+        Map<String, Object> jsonMap = new LinkedHashMap<>();
+        jsonMap.put("codigoDoAtendimento", atendimentoAtualizado.getCod());
+        jsonMap.put("dataInicio", atendimentoAtualizado.getDatainicio());
+        jsonMap.put("duracao", atendimentoAtualizado.getDuracao());
+        jsonMap.put("status", atendimentoAtualizado.getStatus());
+        jsonMap.put("codigoDoEvento", atendimentoAtualizado.getEventoCodigo());
+        
+        // Adicionando a equipe, já que pede o cadastro "completo"
+        jsonMap.put("numeroDaEquipe", atendimentoAtualizado.getEquipes()); 
 
-    
+        // Retorna 200 OK com o JSON populado
+        return ResponseEntity.ok(jsonMap);
+    }
 
   
 }
