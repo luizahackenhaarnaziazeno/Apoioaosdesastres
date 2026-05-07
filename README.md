@@ -1,4 +1,4 @@
-<h1 align="center">🆘 apoioaodesastres</h1>
+<h1 align="center">🆘 Apoioaodesastres</h1>
 
 <p align="center">
   <i>Este é o módulo backend do sistema de gerenciamento da ACMERescue, uma empresa dedicada ao atendimento de desastres naturais (como ciclones, enchentes e terremotos).</i>
