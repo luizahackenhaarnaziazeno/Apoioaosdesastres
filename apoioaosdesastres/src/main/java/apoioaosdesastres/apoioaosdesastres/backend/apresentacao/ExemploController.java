@@ -24,15 +24,19 @@ public class ExemploController {
     private IAtendimentoRepository atendimento;
     private IEventoRepository evento;
     private IEquipamentoRepository equipamento;
-    private IEquipeRepository equipe;
+    private IEquipeRepository equipe;  
+     
+    
+
 
 
     @Autowired
-    public ExemploController(IAtendimentoRepository atendimento, IEventoRepository evento, IEquipeRepository equipe, IEquipamentoRepository equipamento) {
+    public ExemploController(IAtendimentoRepository atendimento, IEventoRepository evento, IEquipeRepository equipe, IEquipamentoRepository equipamento, IAtendimentoJpaRep atendimentoJpaRepository) {
         this.atendimento = atendimento;
         this.evento = evento;
         this.equipamento = equipamento;
         this.equipe = equipe;
+        this.atendimentoJpaRepository = atendimentoJpaRepository;
     }
 
     
@@ -158,55 +162,35 @@ public class ExemploController {
         return ResponseEntity.ok(resposta);
     }
 
-   
-@PostMapping("/atendimento/{codigo}")
+   @PostMapping("/atendimento/{codigo}")
     public ResponseEntity<Map<String, Object>> atualizarStatusAtendimento(
             @PathVariable long codigo,
             @RequestBody Map<String, String> corpoRequisicao) {
 
-        // 1. Extrai o status do corpo do JSON
-        String novoStatus = corpoRequisicao.get("status");
-
-        // Validação básica se o status foi enviado
-        if (novoStatus == null || novoStatus.trim().isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        novoStatus = novoStatus.toUpperCase();
+        String novoStatus = corpoRequisicao.get("status").toUpperCase();
         
-        // (Opcional) Validação de segurança dos status permitidos
-        List<String> statusValidos = List.of("PENDENTE", "EXECUTANDO", "FINALIZADO", "CANCELADO");
-        if (!statusValidos.contains(novoStatus)) {
-            return ResponseEntity.badRequest().build();
-        }
+        // 1. Busca o atendimento direto pelo JPA
+        Atendimento atendimento = atendimentoJpaRepository.findById(codigo);
 
-        // 2. Usa o método da sua interface para alterar a situação
-        boolean atualizou = atendimento.alterarSituacaoDeAtendimento(codigo, novoStatus);
-
-        if (!atualizou) {
-            // Se retornou false (ex: código não existe), retorna Erro 400 ou 404
-            return ResponseEntity.badRequest().build(); 
-        }
-
-        // 3. Busca o atendimento atualizado no banco
-        Atendimento atendimentoAtualizado = atendimento.getAtendimentoCod(codigo);
-
-        if (atendimentoAtualizado == null) {
+        // Se não achou, retorna 404
+        if (atendimento == null) {
             return ResponseEntity.notFound().build();
         }
 
-        // 4. Mapeia a resposta completa dinamicamente (sem DTO)
-        Map<String, Object> jsonMap = new LinkedHashMap<>();
-        jsonMap.put("codigoDoAtendimento", atendimentoAtualizado.getCod());
-        jsonMap.put("dataInicio", atendimentoAtualizado.getDatainicio());
-        jsonMap.put("duracao", atendimentoAtualizado.getDuracao());
-        jsonMap.put("status", atendimentoAtualizado.getStatus());
-        jsonMap.put("codigoDoEvento", atendimentoAtualizado.getEventoCodigo());
-        
-        // Adicionando a equipe, já que pede o cadastro "completo"
-        jsonMap.put("numeroDaEquipe", atendimentoAtualizado.getEquipes()); 
+        // 2. Altera o status NO OBJETO
+        atendimento.setStatus(novoStatus); // Vai dar erro aqui se você não tiver esse método (veja o aviso abaixo)
 
-        // Retorna 200 OK com o JSON populado
+        // 3. SALVA DE VOLTA NO BANCO DE DADOS (Essa é a parte que devia estar faltando!)
+        atendimentoJpaRepository.save(atendimento);
+
+        // 4. Monta o JSON de resposta
+        Map<String, Object> jsonMap = new LinkedHashMap<>();
+        jsonMap.put("codigoDoAtendimento", atendimento.getCod());
+        jsonMap.put("dataInicio", atendimento.getDatainicio());
+        jsonMap.put("duracao", atendimento.getDuracao());
+        jsonMap.put("status", atendimento.getStatus());
+        jsonMap.put("codigoDoEvento", atendimento.getEventoCodigo());
+        
         return ResponseEntity.ok(jsonMap);
     }
 
