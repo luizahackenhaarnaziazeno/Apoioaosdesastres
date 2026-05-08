@@ -16,9 +16,12 @@ public class Evento {
     protected Evento() {
     }
 
-    public Evento(long codigo, String descricao) {
+    public Evento(long codigo, String descricao, String data, double latitude, double longitude) {
         this.codigo = codigo;
         this.descricao = descricao;
+        this.data = data;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public long getCodigo() {
