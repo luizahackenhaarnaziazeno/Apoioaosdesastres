@@ -163,6 +163,55 @@ public class ExemploController {
         return ResponseEntity.ok(resposta);
     }
 
+    // GET /acmerescue/atendimento/custo/{codigo}
+    @GetMapping("/atendimento/custo/{codigo}")
+    public ResponseEntity<List<Map<String, Object>>> getCustoAtendimentosPorEvento(@PathVariable long codigo) {
+        List<Atendimento> todosAtendimentos = atendimento.getAtendimentos();
+
+        List<Map<String, Object>> resposta = todosAtendimentos.stream()
+                .filter(a -> a.getEventoCodigo() != null && a.getEventoCodigo() == codigo)
+                .map(a -> {
+                    Map<String, Object> jsonMap = new LinkedHashMap<>();
+                    jsonMap.put("codigoEvento", a.getEventoCodigo());
+                    jsonMap.put("codigoAtendimento", a.getCod());
+                    jsonMap.put("numeroEquipe", a.getEquipes());
+                    jsonMap.put("custo", a.calculaCusto());
+                    return jsonMap;
+                }).collect(Collectors.toList());
+
+        if (resposta.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(resposta);
+    }
+
+    // GET /acmerescue/equipe/atendimento/{numero}
+    // retornando vazio
+    @GetMapping("/equipe/atendimento/{numero}")
+    public ResponseEntity<List<Map<String, Object>>> getAtendimentosPorEquipe(@PathVariable long numero) {
+        List<Atendimento> todosAtendimentos = atendimento.getAtendimentos();
+
+        List<Map<String, Object>> resposta = todosAtendimentos.stream()
+                .filter(a -> a.getEquipes() != null && a.getEquipes() == numero)
+                .map(a -> {
+                    Map<String, Object> jsonMap = new LinkedHashMap<>();
+                    jsonMap.put("codigoAtendimento", a.getCod());
+                    jsonMap.put("dataInicio", a.getDatainicio());
+                    jsonMap.put("duracao", a.getDuracao());
+                    jsonMap.put("status", a.getStatus());
+                    jsonMap.put("codigoEvento", a.getEventoCodigo());
+                    jsonMap.put("numeroEquipe", a.getEquipes());
+                    return jsonMap;
+                }).collect(Collectors.toList());
+
+        if (resposta.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(resposta);
+    }
+
    
 
   
