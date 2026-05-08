@@ -144,14 +144,14 @@ public class ExemploController {
             return ResponseEntity.badRequest().build();
         }
 
-        // 1. Busca TODOS os atendimentos usando o método que já existe na sua interface
+        //Busca TODOS os atendimentos usando o método que já existe na interface
         List<Atendimento> todosAtendimentos = atendimento.getAtendimentos();
 
-        // 2. Filtra a lista pelo status e já mapeia para o formato JSON esperado
+        //Filtra a lista pelo status e já mapeia para o formato JSON esperado
         List<Map<String, Object>> resposta = todosAtendimentos.stream()
                 // Filtra para manter apenas os atendimentos com o status procurado
                 .filter(a -> a.getStatus() != null && a.getStatus().equalsIgnoreCase(statusUpper))
-                // Transforma a entidade no Map (JSON) para não usar DTO
+                // Transforma a entidade no Map (JSON) 
                 .map(atendimento -> {
                     Map<String, Object> jsonMap = new LinkedHashMap<>();
                     jsonMap.put("codigoDoAtendimento", atendimento.getCod());
@@ -445,7 +445,6 @@ public class ExemploController {
         }
 
         try {
-            // Try to save using the repository if it has a save method
             for (Method method : evento.getClass().getMethods()) {
                 if ("save".equals(method.getName()) && method.getParameterCount() == 1) {
                     Object resultado = method.invoke(evento, novo);
@@ -453,7 +452,7 @@ public class ExemploController {
                 }
             }
 
-            // Fallback: Try to add to the list
+           
             List<Evento> eventos = evento.getEventos();
             if (eventos == null) {
                 eventos = new ArrayList<>();
