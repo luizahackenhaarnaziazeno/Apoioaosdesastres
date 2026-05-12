@@ -221,8 +221,7 @@ class ApoioaosdesastresApplicationTests {
         assertEquals(newCustoDiario, equipamento.getCustoDiario());
     }
 
-    private EquipeRepoJpaImpl equipeRepoJpaImpl;
-
+    
     // Teste de inicialização da Equipe
     @Test
     void testEquipeConstrutor() {
@@ -282,17 +281,14 @@ class ApoioaosdesastresApplicationTests {
         assertEquals(newLongitude, equipe.getLongitude());
     }
 
-    // Teste para adicionar equipamento
-    // @Test
-    // void testAdicionarEquipamento() {
-    //     Equipe equipe = new Equipe(1L, null, 5, -23.55052, -46.633308);
-    //     Equipamento equipamento = new Equipamento(1L, "Gerador", 50.0);
+    @Test
+    void testAdicionarEquioamento(){
+            
 
-    //     equipe.adicionarEquipamento(equipamento);
 
-    //     assertEquals(1, equipe.getEquipamentos().size(), "A equipe deve ter 1 equipamento");
-    //     assertTrue(equipe.getEquipamentos().contains(equipamento), "A equipe deve conter o equipamento");
-    // }
+
+    }
+
 
     // Teste para calcular o custo da equipe
     @Test
@@ -306,20 +302,20 @@ class ApoioaosdesastresApplicationTests {
     }
 
     // Teste para calcular o custo dos equipamentos
-    // @Test
-    // void testCalcularCustoEquipamentos() {
-    //     Equipe equipe = new Equipe(1L, null, 5, -23.55052, -46.633308);
-    //     Equipamento equipamento1 = new Equipamento(1L, "Gerador", 50.0);
-    //     Equipamento equipamento2 = new Equipamento(2L, "Lanterna", 5.0);
-    //     equipe.adicionarEquipamento(equipamento1);
-    //     equipe.adicionarEquipamento(equipamento2);
+    @Test
+    void testCalcularCustoEquipamentos() {
+      Equipe equipe = new Equipe(1L, null, 5, -23.55052, -46.633308);
+      Equipamento equipamento1 = new Equipamento(1L, "Gerador", 50.0);
+      Equipamento equipamento2 = new Equipamento(2L, "Lanterna", 5.0);
+      equipe.adicionarEquipamento(equipamento1);
+      equipe.adicionarEquipamento(equipamento2);
 
-    //     int duracao = 10;
+      int duracao = 10;
 
-    //     double custoEquipamentos = equipe.calcularCustoEquipamentos(duracao);
+      double custoEquipamentos = equipe.calcularCustoEquipamentos(duracao);
 
-    //     assertEquals(550.0, custoEquipamentos, "O custo dos equipamentos deve ser 550.0");
-    // }
+      assertEquals(550.0, custoEquipamentos, "O custo dos equipamentos deve ser 550.0");
+    }
 
     // Teste para calcular o custo do deslocamento
     // @Test
@@ -474,18 +470,18 @@ class ApoioaosdesastresApplicationTests {
     //     assertEquals(equipe, atendimento.getEquipe(), "O método getEquipe deve retornar a equipe correta.");
     // }
 
-    // @Test
-    // void testGetEventoCodigo() {
+       @Test
+          void testGetEventoCodigo() {
     //     // Criando as instâncias diretamente dentro do teste
-    //     Evento evento = new Evento(1L, "Evento de Teste");
-    //     Equipamento equipamento = new Equipamento(1L, "Equipamento 1", 50.0);
-    //     Equipe equipe = new Equipe(3L, null, 3, -23.55052, -46.633308);
-    //     equipe.adicionarEquipamento(equipamento);
-    //     Atendimento atendimento = new Atendimento(1L, evento, new Date(), 5, "Em andamento");
-    //     atendimento.getEquipes().add(equipe);
+           Evento evento = new Evento(1L, "Evento de Teste");
+           Equipamento equipamento = new Equipamento(1L, "Equipamento 1", 50.0);
+           Equipe equipe = new Equipe(3L, null, 3, -23.55052, -46.633308);
+           equipe.adicionarEquipamento(equipamento);
+           Atendimento atendimento = new Atendimento(1L, evento, new Date(), 5, "Em andamento");
+           atendimento.getEquipes().add(equipe);
 
-    //     assertEquals(1L, atendimento.getEventoCodigo());
-    // }
+           assertEquals(1L, atendimento.getEventoCodigo());
+    }
 
 
 }
