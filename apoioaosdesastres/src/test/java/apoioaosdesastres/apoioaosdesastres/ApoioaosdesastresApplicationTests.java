@@ -283,14 +283,15 @@ class ApoioaosdesastresApplicationTests {
 
     @Test
     void testAdicionarEquioamento(){
-            
+        Equipe equipe = new Equipe(1L, 5, -23.55052, -46.633308);
+        Equipamento equipamento = new Equipamento(1L, "Gerador", 50.0);
 
+        equipe.adicionarEquipamento(equipamento);
 
-
+        assertTrue(equipe.getEquipamentos().contains(equipamento), "O equipamento deve ser adicionado à equipe");
     }
 
 
-    // Teste para calcular o custo da equipe
     @Test
     void testCalcularCustoEquipe() {
         Equipe equipe = new Equipe(1L, 5, -23.55052, -46.633308);
@@ -318,63 +319,61 @@ class ApoioaosdesastresApplicationTests {
     }
 
     // Teste para calcular o custo do deslocamento
-    // @Test
-    // void testCalcularCustoDeslocamento() {
-    //     Equipe equipe = new Equipe(1L, null, 5, -23.55052, -46.633308);
-    //     Equipamento equipamento = new Equipamento(1L, "Gerador", 50.0);
-    //     equipe.adicionarEquipamento(equipamento);
+       @Test
+       void testCalcularCustoDeslocamento() {
+           Equipe equipe = new Equipe(1L, null, 5, -23.55052, -46.633308);
+           Equipamento equipamento = new Equipamento(1L, "Gerador", 50.0);
+           equipe.adicionarEquipamento(equipamento);
 
-    //     double eventoLatitude = -22.9068;
-    //     double eventoLongitude = -43.1729;
+           double eventoLatitude = -22.9068;
+           double eventoLongitude = -43.1729;
 
-    //     double custoDeslocamento = equipe.calcularCustoDeslocamento(eventoLatitude, eventoLongitude);
+           double custoDeslocamento = equipe.calcularCustoDeslocamento(eventoLatitude, eventoLongitude);
 
-    //     assertTrue(custoDeslocamento > 0, "O custo de deslocamento deve ser maior que 0");
-    // }
+           assertTrue(custoDeslocamento > 0, "O custo de deslocamento deve ser maior que 0");
+   }
 
     // Teste para calcular a distância entre dois pontos geográficos
-    // @Test
-    // void testPodeAtender() {
-    //     Equipe equipe = new Equipe(1L, null, 5, -23.55052, -46.633308);
+    @Test
+     void testPodeAtender() {
+         Equipe equipe = new Equipe(1L, null, 5, -23.55052, -46.633308);
 
-    //     double eventoLatitude = -22.9068;
-    //     double eventoLongitude = -43.1729;
+         double eventoLatitude = -22.9068;
+         double eventoLongitude = -43.1729;
 
-    //     assertTrue(equipe.podeAtender(eventoLatitude, eventoLongitude), "A equipe deve poder atender o evento");
+         assertTrue(equipe.podeAtender(eventoLatitude, eventoLongitude), "A equipe deve poder atender o evento");
 
-    //     eventoLatitude = 40.7128;
-    //     eventoLongitude = -74.0060;
+         eventoLatitude = 40.7128;
+         eventoLongitude = -74.0060;
 
-    //     assertFalse(equipe.podeAtender(eventoLatitude, eventoLongitude), "A equipe não deve poder atender o evento");
-    // }
+         assertFalse(equipe.podeAtender(eventoLatitude, eventoLongitude), "A equipe não deve poder atender o evento");
+     }
 
-    // // Teste para o método toString
-    // @Test
-    // void testToString() {
-    //     Equipe equipe = new Equipe(1L, null, 5, -23.55052, -46.633308);
+    // Teste para o método toString
+     @Test
+     void testToString() {
+        Equipe equipe = new Equipe(1L, null, 5, -23.55052, -46.633308);
+     String expectedString = "{" +
+             " numero=" + equipe.getNumero() +
+             ", quantidade=" + equipe.getQuantidade() +
+             ", latitude=" + equipe.getLatitude() +
+             ", longitude=" + equipe.getLongitude() +
+             ", equipamentos=" + equipe.getEquipamentos() +
+             "}";
+     assertEquals(expectedString, equipe.toString(), "O método toString não retornou a string esperada");
+ }
 
-    //     String expectedString = "{" +
-    //             " numero=" + equipe.getNumero() +
-    //             ", quantidade=" + equipe.getQuantidade() +
-    //             ", latitude=" + equipe.getLatitude() +
-    //             ", longitude=" + equipe.getLongitude() +
-    //             ", equipamentos=" + equipe.getEquipamentos() +
-    //             "}";
+    //  Teste para o adicionar equipamento
+    @Test
+    void testGetEquipamento() {
+        Equipe equipe = new Equipe(1L, null, 5, -23.55052, -46.633308);
+       Equipamento equipamento1 = new Equipamento(1L, "Gerador", 50.0);
+        Equipamento equipamento2 = new Equipamento(2L, "Lanterna", 5.0);
 
-    //     assertEquals(expectedString, equipe.toString(), "O método toString não retornou a string esperada");
-    // }
+        equipe.adicionarEquipamento(equipamento1);
+        equipe.adicionarEquipamento(equipamento2);
 
-    // // Teste para o adicionar equipamento
-    // // @Test
-    // // void testGetEquipamento() {
-    // //     Equipe equipe = new Equipe(1L, null, 5, -23.55052, -46.633308);
-    // //     Equipamento equipamento1 = new Equipamento(1L, "Gerador", 50.0);
-    // //     Equipamento equipamento2 = new Equipamento(2L, "Lanterna", 5.0);
-
-    // //     equipe.adicionarEquipamento(equipamento1);
-    // //     equipe.adicionarEquipamento(equipamento2);
-
-    // // }
+    }
  
 
 
@@ -391,84 +390,83 @@ class ApoioaosdesastresApplicationTests {
     // //     assertEquals(1L, atendimento.getCod());
     // // }
 
-    // @Test
-    // void testGetEventoAtendimento() {
-    //     // Criando as instâncias diretamente dentro do teste
-    //     Evento evento = new Evento(1L, "Evento de Teste");
-    //     Equipamento equipamento = new Equipamento(1L, "Equipamento 1", 50.0);
-    //     Equipe equipe = new Equipe(3L, null, 3, -23.55052, -46.633308);
-    //     equipe.adicionarEquipamento(equipamento);
-    //     Atendimento atendimento = new Atendimento(1L, evento, new Date(), 5, "Em andamento");
-    //     atendimento.getEquipes().add(equipe);
+     @Test
+     void testGetEventoAtendimento() {
+         // Criando as instâncias diretamente dentro do teste
+         Evento evento = new Evento(1L, "Evento de Teste");
+         Equipamento equipamento = new Equipamento(1L, "Equipamento 1", 50.0);
+         Equipe equipe = new Equipe(3L, null, 3, -23.55052, -46.633308);
+         equipe.adicionarEquipamento(equipamento);
+         Atendimento atendimento = new Atendimento(1L, evento, new Date(), 5, "Em andamento");
+         atendimento.getEquipes().add(equipe);
 
-    //     assertEquals(evento, atendimento.getEvento());
-    // }
+         assertEquals(evento, atendimento.getEvento());
+    }
 
-    // @Test
-    // void testGetDatainicio() {
-    //     // Criando as instâncias diretamente dentro do teste
-    //     Evento evento = new Evento(1L, "Evento de Teste");
-    //     Equipamento equipamento = new Equipamento(1L, "Equipamento 1", 50.0);
-    //     Equipe equipe = new Equipe(3L, null, 3, -23.55052, -46.633308);
-    //     equipe.adicionarEquipamento(equipamento);
-    //     Atendimento atendimento = new Atendimento(1L, evento, new Date(), 5, "Em andamento");
-    //     atendimento.getEquipes().add(equipe);
+     @Test
+     void testGetDatainicio() {
+     // Criando as instâncias diretamente dentro do teste
+     Evento evento = new Evento(1L, "Evento de Teste");
+     Equipamento equipamento = new Equipamento(1L, "Equipamento 1", 50.0);
+     Equipe equipe = new Equipe(3L, null, 3, -23.55052, -46.633308);
+     equipe.adicionarEquipamento(equipamento);
+     Atendimento atendimento = new Atendimento(1L, evento, new Date(), 5, "Em andamento");
+     atendimento.getEquipes().add(equipe);
+         assertNotNull(atendimento.getDatainicio());
+     }
 
-    //     assertNotNull(atendimento.getDatainicio());
-    // }
+     @Test
+     void testGetDuracao() {
+         // Criando as instâncias diretamente dentro do teste
+         Evento evento = new Evento(1L, "Evento de Teste");
+         Equipamento equipamento = new Equipamento(1L, "Equipamento 1", 50.0);
+         Equipe equipe = new Equipe(3L, null, 3, -23.55052, -46.633308);
+         equipe.adicionarEquipamento(equipamento);
+         Atendimento atendimento = new Atendimento(1L, evento, new Date(), 5, "Em andamento");
+         atendimento.getEquipes().add(equipe);
 
-    // @Test
-    // void testGetDuracao() {
-    //     // Criando as instâncias diretamente dentro do teste
-    //     Evento evento = new Evento(1L, "Evento de Teste");
-    //     Equipamento equipamento = new Equipamento(1L, "Equipamento 1", 50.0);
-    //     Equipe equipe = new Equipe(3L, null, 3, -23.55052, -46.633308);
-    //     equipe.adicionarEquipamento(equipamento);
-    //     Atendimento atendimento = new Atendimento(1L, evento, new Date(), 5, "Em andamento");
-    //     atendimento.getEquipes().add(equipe);
+         assertEquals(5, atendimento.getDuracao());
+     }
 
-    //     assertEquals(5, atendimento.getDuracao());
-    // }
+     @Test
+     void testGetStatus() {
+         // Criando as instâncias diretamente dentro do teste
+         Evento evento = new Evento(1L, "Evento de Teste");
+         Equipamento equipamento = new Equipamento(1L, "Equipamento 1", 50.0);
+         Equipe equipe = new Equipe(3L, null, 3, -23.55052, -46.633308);
+         equipe.adicionarEquipamento(equipamento);
+         Atendimento atendimento = new Atendimento(1L, evento, new Date(), 5, "Em andamento");
+         atendimento.getEquipes().add(equipe);
 
-    // @Test
-    // void testGetStatus() {
-    //     // Criando as instâncias diretamente dentro do teste
-    //     Evento evento = new Evento(1L, "Evento de Teste");
-    //     Equipamento equipamento = new Equipamento(1L, "Equipamento 1", 50.0);
-    //     Equipe equipe = new Equipe(3L, null, 3, -23.55052, -46.633308);
-    //     equipe.adicionarEquipamento(equipamento);
-    //     Atendimento atendimento = new Atendimento(1L, evento, new Date(), 5, "Em andamento");
-    //     atendimento.getEquipes().add(equipe);
+         assertEquals("Em andamento", atendimento.getStatus());
+     }
 
-    //     assertEquals("Em andamento", atendimento.getStatus());
-    // }
+     @Test
+     void testSetStatus() {
+         // Criando as instâncias diretamente dentro do teste
+         Evento evento = new Evento(1L, "Evento de Teste");
+         Equipamento equipamento = new Equipamento(1L, "Equipamento 1", 50.0);
+         Equipe equipe = new Equipe(3L, null, 3, -23.55052, -46.633308);
+         equipe.adicionarEquipamento(equipamento);
+         Atendimento atendimento = new Atendimento(1L, evento, new Date(), 5, "Em andamento");
+         atendimento.getEquipes().add(equipe);
 
-    // @Test
-    // void testSetStatus() {
-    //     // Criando as instâncias diretamente dentro do teste
-    //     Evento evento = new Evento(1L, "Evento de Teste");
-    //     Equipamento equipamento = new Equipamento(1L, "Equipamento 1", 50.0);
-    //     Equipe equipe = new Equipe(3L, null, 3, -23.55052, -46.633308);
-    //     equipe.adicionarEquipamento(equipamento);
-    //     Atendimento atendimento = new Atendimento(1L, evento, new Date(), 5, "Em andamento");
-    //     atendimento.getEquipes().add(equipe);
+         atendimento.setStatus("Concluído");
+         assertEquals("Concluído", atendimento.getStatus());
+     }
 
-    //     atendimento.setStatus("Concluído");
-    //     assertEquals("Concluído", atendimento.getStatus());
-    // }
+     @Test
+     void testGetEquipeAtendimento() {
+         // Criando uma instância de Equipe
+         Equipe equipe = new Equipe(3L, null, 5, -23.55052, -46.633308);  // Parâmetros fictícios para a equipe
 
-    // @Test
-    // void testGetEquipeAtendimento() {
-    //     // Criando uma instância de Equipe
-    //     Equipe equipe = new Equipe(3L, null, 5, -23.55052, -46.633308);  // Parâmetros fictícios para a equipe
+         // Criando a instância de Atendimento e atribuindo a equipe
+         Atendimento atendimento = new Atendimento(1L, new Evento(1L, "Evento Teste"), new Date(), 5, "Em andamento");
+         atendimento.setEquipe(equipe); // Assumindo que existe um setter para a equipe
 
-    //     // Criando a instância de Atendimento e atribuindo a equipe
-    //     Atendimento atendimento = new Atendimento(1L, new Evento(1L, "Evento Teste"), new Date(), 5, "Em andamento");
-    //     atendimento.setEquipe(equipe); // Assumindo que existe um setter para a equipe
-
-    //     // Verificando se o método getEquipe retorna a equipe correta
-    //     assertEquals(equipe, atendimento.getEquipe(), "O método getEquipe deve retornar a equipe correta.");
-    // }
+         // Verificando se o método getEquipe retorna a equipe correta
+         assertEquals(equipe, atendimento.getEquipe(), "O método getEquipe deve retornar a equipe correta.");
+     }
 
        @Test
           void testGetEventoCodigo() {
