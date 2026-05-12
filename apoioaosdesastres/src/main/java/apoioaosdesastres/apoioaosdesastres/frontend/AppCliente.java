@@ -7,7 +7,7 @@ import java.util.*;
 
 public class AppCliente {
 
-    private static final String URL_SERVIDOR = "https://jubilant-journey-r4p6v5p6qp5fxgrx-8081.app.github.dev/";
+    private static final String URL_SERVIDOR = "https://jubilant-journey-r4p6v5p6qp5fxgrx-8081.app.github.dev";
 
     // ── Endpoints de validação ──────────────────────────────────────────────
     private static final String ENDPOINT_VALIDA_EVENTO       = "/acmerescue/validaevento";

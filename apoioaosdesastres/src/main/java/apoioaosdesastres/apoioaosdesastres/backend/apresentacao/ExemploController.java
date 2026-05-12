@@ -8,7 +8,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.*;
-import apoioaosdesastres.apoioaosdesastres.*;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Atendimento;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Evento;
 import apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades.Equipe;

@@ -1,6 +1,5 @@
 package apoioaosdesastres.apoioaosdesastres.backend.persistencia.entidades;
 
-import javax.annotation.processing.Generated;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
